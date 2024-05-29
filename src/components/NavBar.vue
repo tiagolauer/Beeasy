@@ -4,28 +4,26 @@
       <span class="logo">Beeasy</span>
     </div>
     <div class="search">
-      <input type="text" v-model="searchQuery" placeholder="Pesquisar...">
+      <input type="text" v-model="searchQuery" @keydown.enter="search" placeholder="Pesquisar...">
       <button @click="search">Buscar</button>
     </div>
   </nav>
 </template>
 
 <script>
-import { ref } from 'vue';
-
 export default {
-  name: 'NavBar',
-  emits: ['search'],
-  setup(_, { emit }) {
-    const searchQuery = ref('');
-
-    const search = () => {
-      emit('search', searchQuery.value);
+  name: 'Navbar',
+  data() {
+    return {
+      searchQuery: ''
     };
-
-    return { searchQuery, search };
+  },
+  methods: {
+    search() {
+      this.$emit('search', this.searchQuery);
+    }
   }
-}
+};
 </script>
 
 <style>

@@ -18,6 +18,9 @@
           </v-card-text>
         </v-card>
       </v-col>
+      <v-row v-if="!paginatedProducts.length" justify="center">
+        <p>Nenhum produto encontrado.</p>
+      </v-row>
     </v-row>
     <v-row justify="center">
       <v-pagination v-model="currentPage" :length="totalPages" @input="onPageChange"></v-pagination>
@@ -26,10 +29,14 @@
 </template>
 
 <script>
+import NavBar from '../components/NavBar.vue'
 import axios from 'axios';
 
 export default {
   name: 'CategoriasView',
+  props: {
+    searchQuery: String
+  },
   data() {
     return {
       products: [],
@@ -45,6 +52,13 @@ export default {
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return this.products.slice(start, end);
+    }
+  },
+  watch: {
+    searchQuery(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.fetchProducts(newVal);
+      }
     }
   },
   methods: {
@@ -64,13 +78,8 @@ export default {
       this.currentPage = page;
     }
   },
-  watch: {
-    $route(to, from) {
-      this.fetchProducts(to.query.q || '');
-    }
-  },
   created() {
-    this.fetchProducts(this.$route.query.q || '');
+    this.fetchProducts(this.searchQuery);
   }
 };
 </script>

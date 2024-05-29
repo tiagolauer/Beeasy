@@ -1,9 +1,11 @@
 <template>
-  <NavBar />
-  <CategoriasView ref="categoriasView" />
+  <div>
+    <NavBar />
+    <CategoriasView />
+  </div>
 </template>
 
-<script lang="ts" setup>
-import NavBar from '../components/NavBar.vue';
+<script setup lang="ts">
+import NavBar from '../components/NavBar.vue'
 import CategoriasView from '../components/CategoriasView.vue';
 </script>
